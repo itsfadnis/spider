@@ -5,7 +5,7 @@
 - node js and npm
 
 ## Usage
-1. Clone the repo `https://github.com/itsfadnis/spider.git`
+1. Clone the repo `git clone https://github.com/itsfadnis/spider.git`
 
 2. Move to the spider directory `cd spider`
 
