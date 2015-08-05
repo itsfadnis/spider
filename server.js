@@ -11,6 +11,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(cors());
 app.set('port', process.env.PORT || 8080);
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 app.get('/', function(req, res, next){
   res.sendFile(__dirname+'/public/index.html');
 })
