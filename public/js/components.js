@@ -17,9 +17,7 @@ var SearchForm = React.createClass({
     if (!text){
       return;
     } else{
-      $('th').hide();
-      $('tbody').hide();
-      $('#spinner').removeClass('hidden');
+      Helper.showSpinner();
       this.props.onSubmit(text); 
     }
     React.findDOMNode(this.refs.search).value = '';
@@ -27,7 +25,7 @@ var SearchForm = React.createClass({
   render: function(){
     return(
       <form onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Seach anything.." ref="search" />
+        <input type="text" onKeyUp={this.handleKeyPress} placeholder="Seach anything.." ref="search" />
         <input type="submit" value="Search" />
       </form>
     );
@@ -45,9 +43,7 @@ var TagsTable = React.createClass({
   },
   onSubmit: function(text){
     this.getTags(text).done(function(res){
-      $('th').show();
-      $('tbody').show();
-      $('#spinner').addClass('hidden');
+      Helper.hideSpinner();
       this.setState({data: res});
     }.bind(this))
   },
@@ -77,4 +73,5 @@ var TagsTable = React.createClass({
 });
 
 React.render(<TagsTable />, document.getElementById('content'));
-$('th').hide();
+
+  
