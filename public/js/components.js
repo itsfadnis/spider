@@ -35,7 +35,8 @@ var SearchForm = React.createClass({
 var TagsTable = React.createClass({
   getInitialState: function(){
     return ({
-      data: []
+      data: [],
+      links: []
     });
   },
   getTags: function(text){
@@ -44,7 +45,11 @@ var TagsTable = React.createClass({
   onSubmit: function(text){
     this.getTags(text).done(function(res){
       Helper.hideSpinner();
-      this.setState({data: res});
+      this.setState({
+        data: res.data,
+        links: res.links, 
+        text: text
+      });
     }.bind(this))
   },
   render: function(){
@@ -53,25 +58,61 @@ var TagsTable = React.createClass({
         <Row word={row.word} count={row.count}/>
       )
     });
+    var tableStyle = {
+      width: '25%',
+      float: 'left'
+    };
+    var crawlLinksStyle = {
+      width: '75%',
+      float: 'right',
+      marginTop: '39px'
+    };
     return(
       <div>
-        <SearchForm onSubmit={this.onSubmit} />
-        <table>
-          <thead>
-            <tr>
-              <th>Tag</th>
-              <th>Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
+        <div style={tableStyle}>
+          <SearchForm onSubmit={this.onSubmit} />
+          { this.state.text ? <p>Showing tags for '{this.state.text}'</p>: null }
+          <table>
+            <thead>
+              <tr>
+                <th>Tag</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        </div>
+        <div style={crawlLinksStyle}>
+          <CrawlLinks links={this.state.links} />
+        </div>
       </div>
     )
   }
 });
 
-React.render(<TagsTable />, document.getElementById('content'));
+var CrawlLinks = React.createClass({
+  getInititalState: function(){
+    return ({
+      links: []
+    });
+  },
+  render: function(){
+    var links = this.props.links.map(function(link){
+      return (
+        <li>{link}</li>
+      )
+    });
+    return(
+      <div>
+        { this.props.links.length > 0 ? <div>Links crawled:</div> : null }
+        <ul>
+          {links}
+        </ul>
+      </div>
+    );
+  }
+});
 
-  
+React.render(<TagsTable />, document.getElementById('content'));

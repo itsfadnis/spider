@@ -16,8 +16,5 @@
     "morgan": "^1.6.1",
     "request": "^2.60.0"
   },
-  "repository": {
-      "type": "git",
-      "url": "https://github.com/itsfadnis/spider.git"
-  }
+  "git repository": "https://github.com/itsfadnis/spider.git"
 }
