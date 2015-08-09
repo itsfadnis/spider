@@ -3,12 +3,10 @@ var cheerio = require('cheerio'),
   Promise = require('bluebird'),
   express = require('express'),
   morgan = require('morgan'),
-  cors = require('cors'),
   app = express();
 
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
-app.use(cors());
 app.set('port', process.env.PORT || 8080);
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";

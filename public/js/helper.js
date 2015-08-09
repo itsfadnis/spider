@@ -6,6 +6,7 @@ var Helper = (function() {
     $('th').show();
     $('tbody').show();
     $('p').show();
+    $('ul').show();
     $('#spinner').addClass('hidden');
   }
 
@@ -14,6 +15,7 @@ var Helper = (function() {
     $('th').hide();
     $('tbody').hide();
     $('p').hide();
+    $('ul').hide();
     $('#spinner').removeClass('hidden');
   }
 

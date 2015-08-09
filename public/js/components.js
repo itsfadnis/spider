@@ -59,13 +59,13 @@ var TagsTable = React.createClass({
       )
     });
     var tableStyle = {
-      width: '25%',
+      width: '20%',
       float: 'left'
     };
     var crawlLinksStyle = {
-      width: '75%',
+      width: '80%',
       float: 'right',
-      marginTop: '39px'
+      marginTop: '21px'
     };
     return(
       <div>
@@ -101,12 +101,12 @@ var CrawlLinks = React.createClass({
   render: function(){
     var links = this.props.links.map(function(link){
       return (
-        <li>{link}</li>
+        <li><a href={link}>{link}</a></li>
       )
     });
     return(
       <div>
-        { this.props.links.length > 0 ? <div>Links crawled:</div> : null }
+        { this.props.links.length > 0 ? <p> Links crawled:</p> : null }
         <ul>
           {links}
         </ul>
