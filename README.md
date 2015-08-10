@@ -1,6 +1,9 @@
 # spider
 > Crawls the web, generates tags. 
 
+## Demo
+Try out the demo [here][1]
+
 ## Requirements
 - node js and npm
 
@@ -14,3 +17,5 @@
 4. Start the server `npm start`
 
 5. Start crawling by visiting: `http://localhost:8080`
+
+[1]: https://hidden-tundra-9918.herokuapp.com/
