@@ -42,7 +42,8 @@ module.exports = function(Promise, cheerio, request, url) {
             var $ = cheerio.load(body);
             var text = $('body').text().replace(/\s+/g, " ").replace(/[^a-zA-Z ]/g, "").toLowerCase();
             text.split(' ').forEach(function(word) {
-              if (word.length < 4 || word.length > 20 || trash.indexOf(word) != -1) {;
+              if (word.length < 4 || word.length > 20 || word in trash) {
+                ;
               } else if (words[word]) {
                 words[word]++;
               } else {
@@ -74,16 +75,23 @@ module.exports = function(Promise, cheerio, request, url) {
             return b.count - a.count;
           })
           resolve({
+            success: true,
             data: countArray.slice(0, 50),
             links: links
           })
         })
         .catch(function(err) {
-          console.log(err);
+          reject({
+            success: false,
+            err: err
+          });
         })
       })
       .catch(function(err) {
-        console.log(err);
+        reject({
+          success: false,
+          err: err
+        });
       })
     })
   }
