@@ -35,21 +35,32 @@ var SearchForm = React.createClass({
 var TagsTable = React.createClass({
   getInitialState: function(){
     return ({
+      success: undefined,
       data: [],
-      links: []
+      links: [],
+      text: undefined
+    });
+  },
+  refreshState: function(success, data, links, text){
+    this.setState({
+      success: success,
+      data: data,
+      links: links,
+      text: text
     });
   },
   getTags: function(text){
     return $.get('http://localhost:8080/api/'+text);
   },
   onSubmit: function(text){
+    this.refreshState(undefined, [], [], text);
     this.getTags(text).done(function(res){
       Helper.hideSpinner();
-      this.setState({
-        data: res.data,
-        links: res.links, 
-        text: text
-      });
+      if(!res.success){
+        this.refreshState(res.success, [], [], text);
+      } else {
+        this.refreshState(res.success, res.data, res.links, text);
+      }
     }.bind(this))
   },
   render: function(){
@@ -71,21 +82,12 @@ var TagsTable = React.createClass({
       <div>
         <div style={tableStyle}>
           <SearchForm onSubmit={this.onSubmit} />
-          { this.state.text ? <p>Showing tags for '{this.state.text}'</p>: null }
-          <table>
-            <thead>
-              <tr>
-                <th>Tag</th>
-                <th>Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
+          { this.state.success === false ? <DeadSpider />: null }
+          { this.state.success === true ? <p>Showing tags for '{this.state.text}'</p>: null }
+          { this.state.data.length > 0 ? <table><thead><tr><th>Tag</th><th>Count</th></tr></thead><tbody>{rows}</tbody></table>: null }
         </div>
         <div style={crawlLinksStyle}>
-          <CrawlLinks links={this.state.links} />
+          { this.state.links.length > 0 ? <CrawlLinks links={this.state.links} /> : null }
         </div>
       </div>
     )
@@ -114,5 +116,13 @@ var CrawlLinks = React.createClass({
     );
   }
 });
+
+var DeadSpider = React.createClass({
+  render: function(){
+    return(
+      <p>Spider died. Try again.</p>
+    )
+  }
+})
 
 React.render(<TagsTable />, document.getElementById('content'));
